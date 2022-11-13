@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Register</title>
+</head>
+<body>
+    <h1>This is the face register page</h1>
+    <div id="registerInformation">
+        <div id="studentName">
+            <input type="text" placeholder="student name">
+        </div>
+        <div id="studentId">
+            <input type="text" placeholder="student id">
+        </div>
+        <div id="email">
+            <input type="text" placeholder="email">
+        </div>
+        <div id="department">
+            <input type="text" placeholder="department">
+        </div>
+        <button id="registerFace" onclick="register()">Start Register</button>
+        <button onclick="returnToLogin()">Cancel</button>
+    </div>
+    <script>
+        document.getElementById("studentName").value = "";
+        document.getElementById("studentId").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("department").value = "";
+
+        function returnToLogin(){
+            console.log("ha")
+            window.location.href = "/";
+        }
+
+        function register(){
+            
+        }
+    </script>
+</body>
+</html>

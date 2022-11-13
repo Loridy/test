@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Login</title>
+</head>
+<body>
+    <h1>This is the face login page</h1>
+    <div id="login_face">
+        <!-- <div id="faceIDPanel">
+            <style>
+                #faceIDPanel {
+                    background-color: white;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    border-radius: 30px;
+                    height: 400px;
+                    width: 300px;
+                }
+            </style>
+            <p style="font-size: 25px; margin-left: 20px; margin-top: 100px">
+                Please look at the camera
+            </p><br>
+            <p style="font-size: 25px; margin-left: 20px;">
+                Say Cheese🧀
+            </p>
+            <script>
+                function faceLoginButton(){
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/faceLogin", true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.send({}); 
+    
+                    xhr.onload = function () {
+                        userName = this.responseText;
+                        console.log("Username : " + userName);
+                        if (userName == "404") {
+                            window.location.href = "/";
+                        } else {
+                            if (userName.length < 50) {
+                                window.location.href = "/home/" + userName;
+                            }
+                            else {
+                                window.location.href = "/";
+                            }
+                        }
+                    };
+                }
+                faceLoginButton();
+            </script>
+        </div> -->
+    </div>
+</body>
+
+</html>
