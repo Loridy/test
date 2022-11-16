@@ -17,6 +17,7 @@
 `/faceRegister.html` | text/html | load faceRegister.html | N/A
 `/faceLogin` | application/json | start face recognition; return studentName if face recoginized, else "None" | {"value": "None"} or {"value": "Loridy"}
 `/homepage/<studentName>/logout` | application/json | logout (used to store logout time) | {"result": "Log out successfully"}
+`/loginRecord/<studentName>` | application/json | get the last user login information | {"studentID":studentID, "total_login_times":total_login_times, "last_login_time":last_login_time, "last_logout_time":last_logout_time, "duration":duration}
 
 ### Welcome message when user login (student name, login time) <br> Done with JS?
 
