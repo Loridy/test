@@ -67,12 +67,13 @@ def faceRegisterProcess():
     studentId = content["studentId"]
     department = content["department"]
     email = content["email"]
+    moodle = content["moodle"]
     print("GET faceRegisterProcess with studentName="+studentName)
     
     myconn = mysql.connector.connect(host="localhost", user="root", password="        ", database="COMP3278")
     cursor = myconn.cursor()
     sql = "INSERT INTO `student` (`student_id`, `department`,`email`,`student_name`,`moodle`) VALUES(%s, %s, %s, %s, %s)"
-    cursor.execute(sql, [studentId, department, email, studentName, "N/A"])
+    cursor.execute(sql, [studentId, department, email, studentName, moodle])
     result = cursor.fetchall()
     myconn.commit()
 
@@ -128,7 +129,7 @@ def loginRecord(studentName):
     cursor.execute(get_uid_sql, [studentName])
     uid = cursor.fetchall()[0][0]
 
-    sql = "Select * From login_record Where behaviour_id =(Select Max(behaviour_id) From login_record Where student_id=%s)"
+    sql = "Select * From login_record Where behaviour_id =(Select Max(behaviour_id) From login_record Where student_id=%s and logout_time is not NULL)"
     cursor.execute(sql, [uid])
     result = cursor.fetchall()
     last_login_record = result[0]
