@@ -26,3 +26,10 @@
 `POST` | Request | example| Response | description | example
 --- | --- | --- | --- | --- | ---
 `/faceRegister` | application/json | {"studentName": str, "studentId": str, "email": str, "department": str, "moodle": str} | text | register a new account; after fill in all info, start face capture | "OK"
+
+## Upcoming
+
+
+`GET` | Response | description | example
+--- | --- | --- | ---
+`/upcoming/<studentName>` | application/json | get upcoming events including upcoming course, upcoming deadline, and other upcomings | {"upcomingcourse": {"course": [], "tutorial": []}, "upcomingDDL": {"DDL": []}, "other": {"course": [["COMP3278-1A", "Mon", "14:30:00", "15:20:00"], ["COMP3278-1A", "Thu", "13:30:00", "15:20:00"], ["ECON2280-1A", "Mon", "09:30:00", "12:20:00"]], "tutorial": [["COMP3278-1A", "Tue", "16:30:00", "17:20:00"], ["COMP3278-1A", "Tue", "16:30:00", "17:20:00"], ["COMP3278-1A", "Tue", "16:30:00", "17:20:00"], ["ECON2280-1A", "Wed", "10:30:00", "11:20:00"], ["ECON2280-1A", "Wed", "10:30:00", "11:20:00"], ["ECON2280-1A", "Wed", "10:30:00", "11:20:00"]], "DDL": [["COMP3278-1A", "2022-11-15", "12:00:00"], ["ECON2280-1A", "2022-11-14", "23:59:00"]]}}
