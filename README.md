@@ -27,6 +27,28 @@
 --- | --- | --- | --- | --- | ---
 `/faceRegister` | application/json | {"studentName": str, "studentId": str, "email": str, "department": str, "moodle": str} | text | register a new account; after fill in all info, start face capture | "OK"
 
+## Show Homepage
+
+`GET` | Response | description | example
+--- | --- | --- | ---
+`/schedule/<studentName>` | text/html | return an html template with reference \[course, tutorial, DDL\] | {{course}} ---- [['COMP3278-1A', 'Mon', '14:30:00', '15:20:00'], ['COMP3278-1A', 'Thu', '13:30:00', '15:20:00'], ['ECON2280-1A', 'Mon', '09:30:00', '12:20:00']]
+
+(Use {{course}} in .html to get course data)
+
+## Add Course
+
+`GET` | Response | description | example
+--- | --- | --- | ---
+`schedule/<studentName>/add.html` | text/html | return an html template with reference \[choice\] | {{course}} ---- [('MATH2211-1A',), ('STAT2602-1A',)]
+`schedule/<studentName>add` | application/json |  | 
+
+## Drop Course
+
+`GET` | Response | description | example
+--- | --- | --- | ---
+`schedule/<studentName>/drop.html` | text/html | return an html template with reference \[choice\] | {{course}} ---- [('COMP3278-1A',), ('ECON2280-1A',)]
+`schedule/studentName/drop | application/json |  |
+
 ## Upcoming
 
 
