@@ -171,7 +171,7 @@ def addprocess(studentName):
     
     content = request.get_json()
     choice = list(content["choice"])
-    print("GET add with choice="+choice)
+    print("GET add with choice=", choice, sep="")
     myconn = mysql.connector.connect(host="localhost", user="root", password="        ", database="COMP3278")
     cursor = myconn.cursor()
     get_uid_sql = "Select student_id from student Where student_name=%s"
@@ -200,7 +200,7 @@ def drop(studentName):
 def dropprocess(studentName):
     content = request.get_json()
     choice = content["choice"]
-    print("GET drop with choice="+choice)
+    print("GET drop with choice=", choice, sep="")
     myconn = mysql.connector.connect(host="localhost", user="root", password="        ", database="COMP3278")
     cursor = myconn.cursor()
     get_uid_sql = "Select student_id from student Where student_name=%s"
