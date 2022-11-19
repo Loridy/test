@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from flask_restful import Api, Resource
 import mysql.connector
 from datetime import datetime, timedelta
 import json
+import os
 
 app = Flask(__name__, template_folder="./html")
 api = Api(app)
@@ -137,6 +138,15 @@ def loginRecord(studentName):
     # print(type(duration))
     return json.dumps({"studentID":studentID, "total_login_times":total_login_times, "last_login_time":last_login_time, "last_logout_time":last_logout_time, "duration":duration})
 
+@app.route("/image/logo")
+def getLogo():
+    path = os.path.abspath(os.getcwd())+"/src/MyClass.png"
+    return send_file(path, as_attachment=True)
+
+@app.route("/image/logout")
+def getLogout():
+    path = os.path.abspath(os.getcwd())+"/src/logout.png"
+    return send_file(path, as_attachment=True)
 ################################################################################################################
 ################################################################################################################
 #################################################### PART TWO ##################################################

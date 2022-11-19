@@ -4,23 +4,613 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>schedule</title>
+    <title>Schedule</title>
 </head>
+<style>
+    .sidebar{
+        background-color: #307C4A;
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-top: 20px;
+        overflow-x: hidden;
+    }
+    .sidebar .logo{
+        display: block;
+        margin-left: 50px;
+        margin-right: 60px;
+        width: 30%;
+    }
+    .sidebar h5{
+        color:#ffffff;
+        display: block; 
+        margin: 5px 20px 10px 20px;
+        font-size: 18px;
+    }
+    .sidebar i{
+        color: #54FF51;
+        margin-left: 4px;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+    .sidebar a{
+        text-decoration: none;
+        font-size: 17px;
+        padding: 6px 8px 6px 16px;
+        margin-left: 4px;
+        color: #ffffff;
+        border-top: 10px;
+        display: block;
+    }
+    .sidebar a.current{
+        background-color: #1b9646; 
+    }
+    .sidebar p{
+        margin-top: 450px;
+        color: #ffffff;
+    }
+    .sidebar p img{
+        margin-left: 10px;
+        width: 15%;
+    }
+    .sidebar p strong{
+        margin-left: 15px;
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+    .schedule{
+        background-color: #ffffff;
+        margin-left: 160px;
+    }
+    .schedule time{
+        width: 30px;
+    }
+    .schedule p{
+        height: 23px;
+    }
+    .action button {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    font-size: 17px;
+}
+</style>
 <body>
-    <div class="course">
-        <h1>course:</h1><br/>
-        {{course}}
-        <br/>
+    <div class="sidebar">
+        <img class="logo" src="/image/logo" alt="Logo">
+        <h5>HKU MyClass</h5>
+        <i>Menu</i>
+        <a href="#" class="current">My Schedule</a>
+        <a href="./upcomings.html">Upcomings</a>
+        <p><img class="logout" src="/image/logout" alt="Logout"><strong>Max Lee</strong></p>
     </div>
-    <div class="tutorial">
-        <h1>tutorial:</h1><br/>
+    <div class="schedule">
+        <h1 >My Schedule</h1>
+        <!-- {{course}}
+        <br>
         {{tutorial}}
-        <br/>
-    </div>
-    <div class="ddl">
-        <h1>DDL:</h1><br/>
-        {{DDL}}
-        <br/>
-    </div>
+        <br>
+        {{DDL}} -->
+        <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+        <div style="height: 40px">
+            <div style="float: left;">
+                <p style="font-size:15x; margin: 0 0 0 5px;">HKU Class - Max Lee</p>
+                <p style="font-size:18px; margin: 5px; text-align: center;"><strong>Weekly Schedule</strong></p>
+            </div>
+            <div class="action" style="float: right; margin-top:20px">
+                <button style="color: #349D32 ">ADD</button>
+                <button style="color: #E01B1B">DROP</button>
+                <button style="color: #5F5F5F">REFRESH</button>
+            </div>
+            
+        </div>
+        <div class="timetable" style="width:100%; display: block;">
+            <div class="time" style="width:30px; display: block; position: fixed;">
+                <p></p>
+                <p>08</p>
+                <p>09</p>
+                <p>10</p>
+                <p>11</p>
+                <p>12</p>
+                <p>13</p>
+                <p>14</p>
+                <p>15</p>
+                <p>16</p>
+                <p>17</p>
+                <p>18</p>
+                <p>19</p>
+                <p>20</p>
+            </div>
+            <div class="Mon" style="margin-left: 0px; padding-left: 50px; padding-right: 30px; padding-right: 20px; padding-right: 20px; height: 560px; position: fixed;">
+                <p style="font-size:17px; text-align:center;">Monday</p>
+                <div id="Mon"></div>
+                    <script>
+                        const mon = document.getElementById("Mon")
+                        // accept-type: [name, start-time, end-time]
+                        var courses = [['COMP3278-1A', '14:30:00', '15:20:00'], ['ECON2280-1A', '09:30:00', '12:20:00']]
+                        var tutorials = []
+                        var ddl = []
+                        var all = []
+                        courses = courses.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        tutorials = tutorials.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        ddl = ddl.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        for (let i=0; i<courses.length;i++){
+                            courses[i].push("lecture")
+                            all.push(courses[i])
+                        }
+                        for (let i=0; i<tutorials.length;i++){
+                            tutorials[i].push("tutorial")
+                            all.push(tutorials[i])
+                        }
+                        for (let i=0; i<ddl.length;i++){
+                            ddl[i].push("ddl")
+                            all.push(ddl[i])
+                        }
+                        var type_color = {
+                            "lecture": "#43f340",
+                            "tutorial": "#ffec42"
+                        }
+                        var [start_hour, start_min] = ["07", "30"]
+                        console.log("start: "+start_hour+start_min)
+                        for (let i=0;i<all.length;i++){
+                            if (all[i][3]!="ddl"){
+                                let btn = document.createElement("div")
+                            let [name, start, end, type] = all[i]
+                            let [s_hour, s_min, s_sec] = start.split(":")
+                            let [e_hour, e_min, s] = end.split(":")
+                            let duration = (e_hour-s_hour)+(e_min-s_min)/60
+                            let toLast = s_hour-start_hour+(s_min-start_min)/60
+                            start_hour = e_hour
+                            start_min = e_min
+                            // style
+                            let background_color = "background-color: "+type_color[type]+";"
+                            let height = "height: "+parseInt(duration*40)+"px;"
+                            let margin_top = "margin-top: "+parseInt(toLast*40)+"px;"
+                            let font_size = "font-size: 12px;"
+                            let width = "width: 120px;"
+                            let border_radius = "border-radius: 10px;"
+                            let style = background_color+height+margin_top+font_size+width+border_radius
+                            btn.setAttribute(
+                                "style",
+                                style
+                            )
+                            btn.innerHTML = "<span style=\"text-align:center;display: block; margin:0; border-top:10px;\">"+name+"</span>"+"<span style=\"text-align:center;display: block;margin-top:3px;\">"+type+start.substring(0,5)+" - "+end.substring(0,5)+"</span>"
+                            console.log(btn.innerHTML)
+                            mon.appendChild(btn)
+                            }
+                        }
+                    </script>
+            </div>
+            <div class="Tue" style="margin-left: 150px; padding-left: 50px; padding-right: 30px; padding-right: 20px; padding-right: 20px; height: 560px; position: fixed;">
+                <p style="font-size:17px; text-align:center;">Tuesday</p>
+                <div id="Tue">
+                    <script>
+                        const tue = document.getElementById("Tue")
+                        // accept-type: [name, start-time, end-time]
+                        var courses = []
+                        var tutorials = [['COMP3278-1A', '16:30:00', '17:20:00', 'tutorial']]
+                        var ddl = []
+                        var all = []
+                        courses = courses.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        tutorials = tutorials.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        ddl = ddl.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        for (let i=0; i<courses.length;i++){
+                            courses[i].push("lecture")
+                            all.push(courses[i])
+                        }
+                        for (let i=0; i<tutorials.length;i++){
+                            tutorials[i].push("tutorial")
+                            all.push(tutorials[i])
+                        }
+                        for (let i=0; i<ddl.length;i++){
+                            ddl[i].push("ddl")
+                            all.push(ddl[i])
+                        }
+                        var type_color = {
+                            "lecture": "#43f340",
+                            "tutorial": "#ffec42"
+                        }
+                        console.log(type_color)
+                        var [start_hour, start_min] = ["07", "30"]
+                        console.log("start: "+start_hour+start_min)
+                        for (let i=0;i<all.length;i++){
+                            if (all[i][3]!="ddl"){
+                                let btn = document.createElement("div")
+                            let [name, start, end, type] = all[i]
+                            let [s_hour, s_min, s_sec] = start.split(":")
+                            let [e_hour, e_min, s] = end.split(":")
+                            let duration = (e_hour-s_hour)+(e_min-s_min)/60
+                            let toLast = s_hour-start_hour+(s_min-start_min)/60
+                            start_hour = e_hour
+                            start_min = e_min
+    
+                            // style
+                            let background_color = "background-color: "+type_color[type]+";"
+                            let height = "height: "+parseInt(duration*40)+"px;"
+                            let margin_top = "margin-top: "+parseInt(toLast*40)+"px;"
+                            let font_size = "font-size: 12px;"
+                            let width = "width: 120px;"
+                            let border_radius = "border-radius: 10px;"
+                            let style = background_color+height+margin_top+font_size+width+border_radius
+                            btn.setAttribute(
+                                "style",
+                                style
+                            )
+                            btn.innerHTML = "<span style=\"text-align:center;display: block; margin:0; border-top:10px;\">"+name+"</span>"+"<span style=\"text-align:center;display: block;margin-top:3px;\">"+type+start.substring(0,5)+" - "+end.substring(0,5)+"</span>"
+                            tue.appendChild(btn)
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="Wed" style="margin-left: 300px; padding-left: 50px; padding-right: 30px; padding-right: 20px; padding-right: 20px; height: 560px; position: fixed;">
+                <p style="font-size:17px; text-align: center;">Wednesday</p>
+                <div id="Wed">
+                    <script>
+                        const wed = document.getElementById("Wed")
+                        // accept-type: [name, start-time, end-time]
+                        var courses = []
+                        var tutorials = [['ECON2280-1A', '10:30:00', '11:20:00', "tutorial"]]
+                        var ddl = []
+                        var all = []
+                        courses = courses.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        tutorials = tutorials.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        ddl = ddl.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        for (let i=0; i<courses.length;i++){
+                            courses[i].push("lecture")
+                            all.push(courses[i])
+                        }
+                        for (let i=0; i<tutorials.length;i++){
+                            tutorials[i].push("tutorial")
+                            all.push(tutorials[i])
+                        }
+                        for (let i=0; i<ddl.length;i++){
+                            ddl[i].push("ddl")
+                            all.push(ddl[i])
+                        }
+                        var type_color = {
+                            "lecture": "#43f340",
+                            "tutorial": "#ffec42"
+                        }
+                        console.log(type_color)
+                        var [start_hour, start_min] = ["07", "30"]
+                        console.log("start: "+start_hour+start_min)
+                        for (let i=0;i<all.length;i++){
+                            if (all[i][3]!="ddl"){
+                                let btn = document.createElement("div")
+                            let [name, start, end, type] = all[i]
+                            let [s_hour, s_min, s_sec] = start.split(":")
+                            let [e_hour, e_min, s] = end.split(":")
+                            let duration = (e_hour-s_hour)+(e_min-s_min)/60
+                            let toLast = s_hour-start_hour+(s_min-start_min)/60
+                            start_hour = e_hour
+                            start_min = e_min
+    
+                            // style
+                            let background_color = "background-color: "+type_color[type]+";"
+                            let height = "height: "+parseInt(duration*40)+"px;"
+                            let margin_top = "margin-top: "+parseInt(toLast*40)+"px;"
+                            let font_size = "font-size: 12px;"
+                            let width = "width: 120px;"
+                            let border_radius = "border-radius: 10px;"
+                            let style = background_color+height+margin_top+font_size+width+border_radius
+                            btn.setAttribute(
+                                "style",
+                                style
+                            )
+                            btn.innerHTML = "<span style=\"text-align:center;display: block; margin:0; border-top:10px;\">"+name+"</span>"+"<span style=\"text-align:center;display: block;margin-top:3px;\">"+type+start.substring(0,5)+" - "+end.substring(0,5)+"</span>"
+                            wed.appendChild(btn)
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="Thu" style="margin-left: 450px; padding-left: 50px; padding-right: 30px; padding-right: 20px; height: 560px; position: fixed;">
+                <p style="font-size:17px; text-align:center;">Thursday</p>
+                <div id="Thu">
+                    <script>
+                        const thu = document.getElementById("Thu")
+                        // accept-type: [name, start-time, end-time]
+                        var courses = []
+                        var tutorials = [['COMP3278-1A', '13:30:00', '15:20:00', "lecture"]]
+                        var ddl = []
+                        var all = []
+                        courses = courses.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        tutorials = tutorials.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        ddl = ddl.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        for (let i=0; i<courses.length;i++){
+                            courses[i].push("lecture")
+                            all.push(courses[i])
+                        }
+                        for (let i=0; i<tutorials.length;i++){
+                            tutorials[i].push("tutorial")
+                            all.push(tutorials[i])
+                        }
+                        for (let i=0; i<ddl.length;i++){
+                            ddl[i].push("ddl")
+                            all.push(ddl[i])
+                        }
+                        var type_color = {
+                            "lecture": "#43f340",
+                            "tutorial": "#ffec42"
+                        }
+                        console.log(type_color)
+                        var [start_hour, start_min] = ["07", "30"]
+                        console.log("start: "+start_hour+start_min)
+                        for (let i=0;i<all.length;i++){
+                            if (all[i][3]!="ddl"){
+                                let btn = document.createElement("div")
+                            let [name, start, end, type] = all[i]
+                            let [s_hour, s_min, s_sec] = start.split(":")
+                            let [e_hour, e_min, s] = end.split(":")
+                            let duration = (e_hour-s_hour)+(e_min-s_min)/60
+                            let toLast = s_hour-start_hour+(s_min-start_min)/60
+                            start_hour = e_hour
+                            start_min = e_min
+    
+                            // style
+                            let background_color = "background-color: "+type_color[type]+";"
+                            let height = "height: "+parseInt(duration*40)+"px;"
+                            let margin_top = "margin-top: "+parseInt(toLast*40)+"px;"
+                            let font_size = "font-size: 12px;"
+                            let width = "width: 120px;"
+                            let border_radius = "border-radius: 10px;"
+                            let style = background_color+height+margin_top+font_size+width+border_radius
+                            btn.setAttribute(
+                                "style",
+                                style
+                            )
+                            btn.innerHTML = "<span style=\"text-align:center;display: block; margin:0; border-top:10px;\">"+name+"</span>"+"<span style=\"text-align:center;display: block;margin-top:3px;\">"+type+start.substring(0,5)+" - "+end.substring(0,5)+"</span>"
+                            thu.appendChild(btn)
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="Fri" style="margin-left: 630px; padding-left: 50px; padding-right: 30px; padding-right: 20px; height: 560px; position: fixed;">
+                <p style="font-size:17px; text-align:center;">Friday</p>
+                <div id="Fri">
+                    <script>
+                        const fri = document.getElementById("Fri")
+                        // accept-type: [name, start-time, end-time]
+                        var courses = []
+                        var tutorials = []
+                        var ddl = []
+                        var all = []
+                        courses = courses.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        tutorials = tutorials.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        ddl = ddl.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        for (let i=0; i<courses.length;i++){
+                            courses[i].push("lecture")
+                            all.push(courses[i])
+                        }
+                        for (let i=0; i<tutorials.length;i++){
+                            tutorials[i].push("tutorial")
+                            all.push(tutorials[i])
+                        }
+                        for (let i=0; i<ddl.length;i++){
+                            ddl[i].push("ddl")
+                            all.push(ddl[i])
+                        }
+                        var type_color = {
+                            "lecture": "#43f340",
+                            "tutorial": "#ffec42"
+                        }
+                        console.log(type_color)
+                        var [start_hour, start_min] = ["07", "30"]
+                        console.log("start: "+start_hour+start_min)
+                        for (let i=0;i<all.length;i++){
+                            if (all[i][3]!="ddl"){
+                                let btn = document.createElement("div")
+                            let [name, start, end, type] = all[i]
+                            let [s_hour, s_min, s_sec] = start.split(":")
+                            let [e_hour, e_min, s] = end.split(":")
+                            let duration = (e_hour-s_hour)+(e_min-s_min)/60
+                            let toLast = s_hour-start_hour+(s_min-start_min)/60
+                            start_hour = e_hour
+                            start_min = e_min
+    
+                            // style
+                            let background_color = "background-color: "+type_color[type]+";"
+                            let height = "height: "+parseInt(duration*40)+"px;"
+                            let margin_top = "margin-top: "+parseInt(toLast*40)+"px;"
+                            let font_size = "font-size: 12px;"
+                            let width = "width: 120px;"
+                            let border_radius = "border-radius: 10px;"
+                            let style = background_color+height+margin_top+font_size+width+border_radius
+                            btn.setAttribute(
+                                "style",
+                                style
+                            )
+                            btn.innerHTML = "<span style=\"text-align:center;display: block; margin:0; border-top:10px;\">"+name+"</span>"+"<span style=\"text-align:center;display: block;margin-top:3px;\">"+type+start.substring(0,5)+" - "+end.substring(0,5)+"</span>"
+                            fri.appendChild(btn)
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="Sat" style="margin-left: 780px; padding-left: 50px; padding-right: 30px; padding-right: 20px; padding-right: 20px; height: 560px; position: fixed;">
+                <p style="font-size:17px; text-align:center;">Saturday</p>
+                <div id="Sat">
+                    <script>
+                        const sat = document.getElementById("Sat")
+                        // accept-type: [name, start-time, end-time]
+                        var courses = []
+                        var tutorials = []
+                        var ddl = []
+                        var all = []
+                        courses = courses.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        tutorials = tutorials.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        ddl = ddl.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        for (let i=0; i<courses.length;i++){
+                            courses[i].push("lecture")
+                            all.push(courses[i])
+                        }
+                        for (let i=0; i<tutorials.length;i++){
+                            tutorials[i].push("tutorial")
+                            all.push(tutorials[i])
+                        }
+                        for (let i=0; i<ddl.length;i++){
+                            ddl[i].push("ddl")
+                            all.push(ddl[i])
+                        }
+                        var type_color = {
+                            "lecture": "#43f340",
+                            "tutorial": "#ffec42"
+                        }
+                        console.log(type_color)
+                        var [start_hour, start_min] = ["07", "30"]
+                        console.log("start: "+start_hour+start_min)
+                        for (let i=0;i<all.length;i++){
+                            if (all[i][3]!="ddl"){
+                                let btn = document.createElement("div")
+                            let [name, start, end, type] = all[i]
+                            let [s_hour, s_min, s_sec] = start.split(":")
+                            let [e_hour, e_min, s] = end.split(":")
+                            let duration = (e_hour-s_hour)+(e_min-s_min)/60
+                            let toLast = s_hour-start_hour+(s_min-start_min)/60
+                            start_hour = e_hour
+                            start_min = e_min
+    
+                            // style
+                            let background_color = "background-color: "+type_color[type]+";"
+                            let height = "height: "+parseInt(duration*40)+"px;"
+                            let margin_top = "margin-top: "+parseInt(toLast*40)+"px;"
+                            let font_size = "font-size: 12px;"
+                            let width = "width: 120px;"
+                            let border_radius = "border-radius: 10px;"
+                            let style = background_color+height+margin_top+font_size+width+border_radius
+                            btn.setAttribute(
+                                "style",
+                                style
+                            )
+                            btn.innerHTML = "<span style=\"text-align:center;display: block; margin:0; border-top:10px;\">"+name+"</span>"+"<span style=\"text-align:center;display: block;margin-top:3px;\">"+type+start.substring(0,5)+" - "+end.substring(0,5)+"</span>"
+                            sat.appendChild(btn)
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="Sun" style="margin-left: 930px; padding-left: 50px; padding-right: 30px; padding-right: 20px; padding-right: 20px; height: 560px; position: fixed;">
+                <p style="font-size:17px; text-align:center;">Sunday</p>
+                <div id="Sun">
+                    <script>
+                        const sun = document.getElementById("Sun")
+                        // accept-type: [name, start-time, end-time]
+                        var courses = []
+                        var tutorials = []
+                        var ddl = []
+                        var all = []
+                        courses = courses.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        tutorials = tutorials.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        ddl = ddl.sort(
+                            (a,b) => (a[1]>b[1]) ? 1 : (a[1]<b[1]) ? -1 : 0
+                        )
+                        for (let i=0; i<courses.length;i++){
+                            courses[i].push("lecture")
+                            all.push(courses[i])
+                        }
+                        for (let i=0; i<tutorials.length;i++){
+                            tutorials[i].push("tutorial")
+                            all.push(tutorials[i])
+                        }
+                        for (let i=0; i<ddl.length;i++){
+                            ddl[i].push("ddl")
+                            all.push(ddl[i])
+                        }
+                        var type_color = {
+                            "lecture": "#43f340",
+                            "tutorial": "#ffec42"
+                        }
+                        console.log(type_color)
+                        var [start_hour, start_min] = ["07", "30"]
+                        console.log("start: "+start_hour+start_min)
+                        for (let i=0;i<all.length;i++){
+                            if (all[i][3]!="ddl"){
+                                let btn = document.createElement("div")
+                            let [name, start, end, type] = all[i]
+                            let [s_hour, s_min, s_sec] = start.split(":")
+                            let [e_hour, e_min, s] = end.split(":")
+                            let duration = (e_hour-s_hour)+(e_min-s_min)/60
+                            let toLast = s_hour-start_hour+(s_min-start_min)/60
+                            start_hour = e_hour
+                            start_min = e_min
+    
+                            // style
+                            let background_color = "background-color: "+type_color[type]+";"
+                            let height = "height: "+parseInt(duration*40)+"px;"
+                            let margin_top = "margin-top: "+parseInt(toLast*40)+"px;"
+                            let font_size = "font-size: 12px;"
+                            let width = "width: 120px;"
+                            let border_radius = "border-radius: 10px;"
+                            let style = background_color+height+margin_top+font_size+width+border_radius
+                            btn.setAttribute(
+                                "style",
+                                style
+                            )
+                            btn.innerHTML = "<span style=\"text-align:center;display: block; margin:0; border-top:10px;\">"+name+"</span>"+"<span style=\"text-align:center;display: block;margin-top:3px;\">"+type+start.substring(0,5)+" - "+end.substring(0,5)+"</span>"
+                            sun.appendChild(btn)
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+        <script>
+            const course = [['COMP3278-1A', 'Mon', '14:30:00', '15:20:00'], ['COMP3278-1A', 'Thu', '13:30:00', '15:20:00'], ['ECON2280-1A', 'Mon', '09:30:00', '12:20:00']]
+            const tutorial = [['COMP3278-1A', 'Tue', '16:30:00', '17:20:00'], ['COMP3278-1A', 'Tue', '16:30:00', '17:20:00'], ['COMP3278-1A', 'Tue', '16:30:00', '17:20:00'], ['ECON2280-1A', 'Wed', '10:30:00', '11:20:00'], ['ECON2280-1A', 'Wed', '10:30:00', '11:20:00'], ['ECON2280-1A', 'Wed', '10:30:00', '11:20:00']]
+            const DDL = [['COMP3278-1A', '2022-11-15', '12:00:00'], ['ECON2280-1A', '2022-11-14', '23:59:00']]
+            // console.log("This is course")
+            // console.log("{{course}}")
+            // console.log("This is tutorial")
+            // console.log("{{tutorial}}")
+            // console.log("This is DDL")
+            // console.log("{{DDL}}")
+        </script>
 </body>
 </html>
