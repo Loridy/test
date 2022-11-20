@@ -13,7 +13,7 @@ api = Api(app)
 @app.route("/")
 def index():
     print("GET index.html")
-    return render_template("index.html")
+    return render_template("faceLogin.html")
 
 
 # render faceLogin.html
