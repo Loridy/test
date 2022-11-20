@@ -4,6 +4,8 @@ import mysql.connector
 from datetime import datetime, timedelta
 import json
 import os
+import schedule
+import time
 
 app = Flask(__name__, template_folder="./html")
 api = Api(app)
@@ -178,10 +180,10 @@ def add(studentName):
 
 @app.route("/schedule/<studentName>/add")
 def addprocess(studentName):
-    
     content = request.get_json()
-    choice = list(content["choice"])
-    print("GET add with choice=", choice, sep="")
+    choice = content["choice"]
+    courselist = ','.join(choice)
+    print("GET add with choice="+courselist)
     myconn = mysql.connector.connect(host="localhost", user="root", password="        ", database="COMP3278")
     cursor = myconn.cursor()
     get_uid_sql = "Select student_id from student Where student_name=%s"
@@ -210,7 +212,8 @@ def drop(studentName):
 def dropprocess(studentName):
     content = request.get_json()
     choice = content["choice"]
-    print("GET drop with choice=", choice, sep="")
+    courselist = ','.join(choice)
+    print("GET add with choice="+courselist)
     myconn = mysql.connector.connect(host="localhost", user="root", password="        ", database="COMP3278")
     cursor = myconn.cursor()
     get_uid_sql = "Select student_id from student Where student_name=%s"
@@ -226,7 +229,6 @@ def dropprocess(studentName):
 @app.route("/upcoming/<studentName>")
 ###gain data from database and classify them to within 1 hour, with 2 days and other
 def upcoming(studentName):
-    
     from homepage import homepage
     print("GET /upcoming/"+studentName)
     [course_schedule, tutorial_schedule, DDL_schedule] = homepage(studentName)
@@ -250,7 +252,6 @@ def upcoming(studentName):
         elif i == 'DDL':
             for j in weekschedule[i]:
                 ddldate=datetime.strptime(j[1],"%Y-%m-%d")
-                print(ddldate-date)
                 if ddldate>date and ddldate-date<=timedelta(days=2):
                     within2days[i].append(j)
                 else:
@@ -259,6 +260,34 @@ def upcoming(studentName):
     return json.dumps({"upcomingcourse":within1hour,"upcomingDDL":within2days,'other':other})
 
 
+################################################################################################################
+################################################################################################################
+################################################# SEND EMAIL ###################################################
+################################################################################################################
+################################################################################################################
+
+@app.route("/upcoming/<studentName>/EmailMe")
+def send_email(studentName):
+
+    from email_job import email_job
+
+    # Set the schedule of executing job()
+    schedule.every(60).minutes.do(email_job,studentName)   # Execute job() every 2 hours
+
+    # Once the student press "EmailMe", the job() func will be executed repeatedly
+    while True:
+        schedule.run_pending()
+        time.sleep(0)
+
+@app.route("/upcoming/<studentName>/Stop_EmailMe")
+def stop_email():
+
+    from email_job import email_job
+
+    ##################################
+    ##### Cancel email_job ##########
+    #################################
+    schedule.cancel_job(email_job)
 
 
 if __name__ == "__main__":
