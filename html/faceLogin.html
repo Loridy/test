@@ -4,54 +4,291 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Face Login</title>
+    <title>Document</title>
 </head>
+<style>
+    .sidebar{
+        background-color: #307C4A;
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-top: 20px;
+        overflow-x: hidden;
+    }
+    .sidebar .logo{
+        display: block;
+        margin-left: 50px;
+        margin-right: 60px;
+        width: 30%;
+    }
+    .sidebar h5{
+        color:#ffffff;
+        display: block; 
+        margin: 5px 20px 10px 20px;
+        font-size: 18px;
+    }
+    .sidebar i{
+        color: #54FF51;
+        margin-left: 4px;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+    .sidebar a{
+        text-decoration: none;
+        font-size: 17px;
+        padding: 6px 8px 6px 16px;
+        margin-left: 4px;
+        color: #ffffff;
+        border-top: 10px;
+        display: block;
+    }
+    .sidebar a.current{
+        background-color: #1b9646; 
+    }
+    .sidebar p{
+        margin-top: 450px;
+        color: #ffffff;
+    }
+    .sidebar p img{
+        margin-left: 10px;
+        width: 15%;
+    }
+    .sidebar p strong{
+        margin-left: 15px;
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+    .login{
+        background-color: #ffffff;
+        margin-left: 155px;
+    }
+</style>
 <body>
-    <h1>This is the face login page</h1>
-    <div id="login_face">
-        <!-- <div id="faceIDPanel">
-            <style>
-                #faceIDPanel {
-                    background-color: white;
-                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                        0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                    border-radius: 30px;
-                    height: 400px;
-                    width: 300px;
-                }
-            </style>
-            <p style="font-size: 25px; margin-left: 20px; margin-top: 100px">
-                Please look at the camera
-            </p><br>
-            <p style="font-size: 25px; margin-left: 20px;">
-                Say Cheese🧀
-            </p>
-            <script>
-                function faceLoginButton(){
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "/faceLogin", true);
-                    xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.send({}); 
+    <div class="sidebar">
+        <img class="logo" src="/image/logo" alt="Logo">
+        <h5>HKU MyClass</h5>
+        <i>Menu</i>
+        <a href="#" class="current">My Schedule</a>
+        <a href="./upcomings.html">Upcomings</a>
+        <!-- <p><img class="logout" src="/image/logout" alt="Logout"><strong>Max Lee</strong></p> -->
+    </div>
+    <div class="login" id="login">
+        <!-- <h1 style="text-align: center; margin-bottom: 10px;">LOG IN</h1> -->
+        <style>
+            .container{
+                position: fixed;
+                width: 350px;
+                height: 450px;
+                background-color: #eeeeee;
+                margin: 120px 330px;
+                color: #2d3436;
+                border-radius: 15px;
+                /* padding: 60px; */
+                transition: .5s;
+            }
+            .container h1{
+                text-align: center;
+                margin: 50px 0;
+                padding-top: 20px;
+                letter-spacing: .5px;
+                color: black;
+            }
+            .container h3{
+                text-align: center;
+                margin: 15px 0;
+                letter-spacing: .5px;
+                color: #487eb0;
+            }
+            .container .data{
+                margin: 30px;
+            }
+            .container form{
+                margin-top: 35px;
+
+            }
+            .container .form-group{
+                margin-bottom: 10px;
+                width:100%;
+            }
+            .container .form-group .form-control{
+                border: 15px;
+                background: transparent;
+                border-bottom: 1px solid #ccc;
+                outline: none;
+                padding: 5px;
+                width: 100%;
+            }
+            .container .form-group .log-btn{
+                border: 0;
+                border-radius: 10px;
+                /* background-image: linear-gradient(100deg, #d2f153, #106933, #b5e786); */
+                /* padding: 10px 0; */
+                color: #ccc;
+                font-size: 20px;
+                letter-spacing: .5px;
+                margin-top: 5px;
+                background-size: 200%;
+                transition: .5s;
+            }
+            .container .form-group .result-btn{
+                border: 0;
+                width: 350px;
+                position: absolute;
+                border-radius: 10px;
+                /* background-image: linear-gradient(100deg, #d2f153, #106933, #b5e786); */
+                padding: 10px 0;
+                color: #ccc;
+                font-size: 20px;
+                letter-spacing: .5px;
+                margin-top: 5px;
+                margin-right: auto;
+                bottom: 50px;
+                background-size: 200%;
+                transition: .5s;
+            }
+            .container .register a{
+                float: right;
+                text-decoration: none;
+                transition: .5s;
+                font-size: 17px;
+                margin-left: 5px;
+                /* turn into block */
+                display: inline-block;
+                color: #54a0ff;
+            }
+        </style>
+        <div class="container" id="data"  sytle="display: block">
+            <h1>Log In</h1>
+            <div class="data">
+                <form action="#">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Account"><br><br>
+                    </div>
     
-                    xhr.onload = function () {
-                        userName = this.responseText;
-                        console.log("Username : " + userName);
-                        if (userName == "404") {
-                            window.location.href = "/";
-                        } else {
-                            if (userName.length < 50) {
-                                window.location.href = "/home/" + userName;
-                            }
-                            else {
-                                window.location.href = "/";
-                            }
-                        }
-                    };
-                }
-                faceLoginButton();
-            </script>
-        </div> -->
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Password"><br>
+                    </div>
+                    <div class="form-group" style="margin-top: 20px">
+                        <input type="submit" class="form-control log-btn" style="color: #28abd3;"  value="Login">
+                        <input type="submit" class="form-control log-btn" onclick="openResult()" style="color: #307C4A;" value="Face Login"><br><br>
+                    </div>
+                    <div class="register">
+                        <span style="display: block; float: right">Don't have an account?</span><br>
+                        <a href="#">Register</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="container" id="result" style="display: none">
+            <div class="data" id="h">
+                <form action="#">
+                    <div class="form-group" style="margin-top: 20px">
+                        <input type="submit" class="form-control result-btn" style="color: #28abd3; display: block;"  value="Retry" id="retry">
+                        <input type="submit" class="form-control result-btn" style="color: #28abd3; display: none;" value="Enter Homepage" id="ok">
+                        <input type="submit" class="form-control result-btn" style="color: #28abd3; display: none;" value="Enter Homepage" id="already">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            function openResult() {
+                var xhr = new XMLHttpRequest()
+                xhr.open("GET", "/faceLogin", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.send({});
+                let username = ""
+                xhr.onload = function () {
+                    res = JSON.parse(xhr.response);
+                    username = res.value
+                    console.log("Username : " + username);
+                    if (username=="None"){
+                        setTimeout(function(){
+                            document.getElementById("result").style.display = "block";
+                            document.getElementById("result").style.height = "300px";
+                            document.getElementById("result").style.width = "400px";
+                            document.getElementById("data").style.display = "none";
+
+                            const div = document.createElement("div")
+                            var currentdate = new Date(); 
+                            var time = "Date: "+currentdate.getDate()+"/"+(currentdate.getMonth()+1)+"/"+currentdate.getFullYear()+"&nbsp;&nbsp;&nbsp;&nbsp;Time: "+currentdate.getHours()+":"+currentdate.getMinutes()+":"+currentdate.getSeconds()
+
+                            div.innerHTML = "<p style=\"margin:1px; font-size: 25px\">Sorry, Face Recgonization Failed</p><br style=\"height:0px;\"><p style=\"margin:5px; font-size:15px\">"+time+"</p>"
+                            div.style["font-size"] = "25px"
+                            div.style["text-align"] = "center"
+                            div.style["margin-top"] = "50px"
+                            const currentDiv = document.getElementById("form-group");
+                            const h = document.getElementById("h")
+                            h.insertBefore(div, currentDiv)
+                        }, 3000)
+                    } else if (username=="Already Login"){
+                        setTimeout(function(){
+                            document.getElementById("result").style.display = "block";
+                            document.getElementById("result").style.height = "300px";
+                            document.getElementById("result").style.width = "400px";
+
+                            document.getElementById("retry").style.display = "none";
+                            document.getElementById("already").style.display = "block"
+                            document.getElementById("data").style.display = "none";
+                            const div = document.createElement("div")
+
+                            var currentdate = new Date(); 
+                            var time = "Date: "+currentdate.getDate()+"/"+(currentdate.getMonth()+1)+"/"+currentdate.getFullYear()+"&nbsp;&nbsp;&nbsp;&nbsp;Time: "+currentdate.getHours()+":"+currentdate.getMinutes()+":"+currentdate.getSeconds()
+
+                            div.innerHTML = "<p style=\"margin:1px; font-size: 25px\">Hi, Max Lee</p><br style=\"height:0px;\"><p style=\"margin:5px; font-size: 25px\">You are already Logged in</p><br style=\"height:1px;\"><p style=\"margin:5px; font-size:15px\">"+time+"</p>"
+                            div.style["font-size"] = "25px"
+                            div.style["text-align"] = "center"
+                            div.style["margin-top"] = "50px"
+                            const currentDiv = document.getElementById("form-group");
+                            const h = document.getElementById("h")
+                            h.insertBefore(div, currentDiv)
+                        }, 3000)
+                    } else {
+                        setTimeout(function(){
+                            document.getElementById("result").style.display = "block";
+                            document.getElementById("result").style.height = "300px";
+                            document.getElementById("result").style.width = "400px";
+
+                            document.getElementById("retry").style.display = "none";
+                            document.getElementById("ok").style.display = "block"
+                            document.getElementById("data").style.display = "none";
+
+                            const div = document.createElement("div")
+                            var currentdate = new Date(); 
+                            var time = "Date: "+currentdate.getDate()+"/"+(currentdate.getMonth()+1)+"/"+currentdate.getFullYear()+"&nbsp;&nbsp;&nbsp;&nbsp;Time: "+currentdate.getHours()+":"+currentdate.getMinutes()+":"+currentdate.getSeconds()
+
+                            div.innerHTML = "<p style=\"margin:5px; font-size: 25px\">Hi, "+username+"</p><br style=\"height:1px;\"><p style=\"margin:5px; font-size: 25px\">Welcome to HKU MyClass</p><br style=\"height:1px;\"><p style=\"margin:5px; font-size:15px\">"+time+"</p>"
+                            div.style["font-size"] = "25px"
+                            div.style["text-align"] = "center"
+                            div.style["margin-top"] = "20px"
+                            const currentDiv = document.getElementById("form-group");
+                            const h = document.getElementById("h")
+                            h.insertBefore(div, currentDiv)
+                        }, 3000)
+                    }
+                    if (username=="None"){
+                        setTimeout(function(){
+                            document.getElementById("result").style.display = "none";
+                            document.getElementById("data").style.display = "block";
+                            document.getElementById("retry").style.display = "block";
+                            document.getElementById("already").style.display = "none"
+                            document.getElementById("data").style.display = "none";
+                            window.location.href = "/faceLogin.html"
+                        }, 5000)
+                    } else if (username=="Already Login"){
+                        setTimeout(function(){
+                            window.location.href = "/schedule/"+"Max%20Lee"
+                        }, 5000)
+                    } else{
+                        setTimeout(function(){
+                            window.location.href = "/schedule/"+username 
+                        }, 5000)
+                    }
+                };
+                
+            }
+        </script>
     </div>
 </body>
-
 </html>
